@@ -9,7 +9,7 @@ project ("Crypto")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+# set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 
 find_package(CLI11 CONFIG REQUIRED)
@@ -17,7 +17,11 @@ find_package(unofficial-sodium CONFIG REQUIRED)
 
 # CRYPTO.DLL
 add_library(Crypto SHARED "crypto/crypto.cpp")
-set_target_properties(Crypto PROPERTIES DEFINE_SYMBOL CRYPTO_EXPORTS )
+set_target_properties(Crypto PROPERTIES 
+	DEFINE_SYMBOL CRYPTO_EXPORTS
+	CXX_VISIBILITY_PRESET hidden
+	VISIBILITY_INLINES_HIDDEN ON
+)
 target_include_directories(Crypto PUBLIC ${CMAKE_SOURCE_DIR}/crypto)
 
 target_link_libraries(Crypto PRIVATE
